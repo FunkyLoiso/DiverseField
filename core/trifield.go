@@ -5,10 +5,6 @@ import (
 	"math"
 )
 
-const (
-	sqrt3 = 1.73205080756888
-)
-
 /*
  *	struct triNode
  */
@@ -31,7 +27,7 @@ func (n triNode) Logical() (int, int) {
 }
 
 func (n triNode) Cartesian() (float64, float64) {
-	x := sqrt3 / 2. * float64(n.logical.x)
+	x := Sqrt3 / 2. * float64(n.logical.x)
 	y := 1.5 * float64(n.logical.y)
 	even := (n.logical.x+n.logical.y)%2 == 0
 	if !even {
@@ -88,7 +84,7 @@ func (f *triField) inBounds(x, y int) bool {
 
 func (f *triField) AtCartesian(x, y float64) Node {
 
-	xstr := math.Floor(x * 2. / sqrt3) // stripe number
+	xstr := math.Floor(x * 2. / Sqrt3) // stripe number
 	ystr := math.Floor(2. / 3. * (y + 0.5))
 
 	// fmt.Printf("xstr: %v ystr: %v\n", xstr, ystr)
@@ -105,9 +101,9 @@ func (f *triField) AtCartesian(x, y float64) Node {
 	*/
 	var x1, y1, x2, y2 float64 // line that divides current rectangle
 	//bottom left to upper right
-	x1 = xstr * sqrt3 / 2.
+	x1 = xstr * Sqrt3 / 2.
 	y1 = (ystr+1.)*1.5 - 0.5
-	x2 = (xstr + 1.) * sqrt3 / 2.
+	x2 = (xstr + 1.) * Sqrt3 / 2.
 	y2 = ystr*1.5 - 0.5
 	even := (int(xstr)+int(ystr))%2 == 0
 	if !even {

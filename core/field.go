@@ -11,6 +11,10 @@ type Point struct {
 type Topology int
 
 const (
+	Sqrt3 = 1.73205080756888
+)
+
+const (
 	CylinderV Topology = iota // N+ <-> N-
 	CylinderH                 // E+ <-> W-
 	Torus                     // N+ <-> S-, E+ <-> W-
