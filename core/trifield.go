@@ -23,13 +23,17 @@ func (n *triNode) SetData(d interface{}) {
 }
 
 func (n triNode) Logical() (int, int) {
-	return n.logical.x, n.logical.y
+	return n.logical.X, n.logical.Y
+}
+
+func (n triNode) LogicalP() Point {
+	return n.logical
 }
 
 func (n triNode) Cartesian() (float64, float64) {
-	x := Sqrt3 / 2. * float64(n.logical.x)
-	y := 1.5 * float64(n.logical.y)
-	even := (n.logical.x+n.logical.y)%2 == 0
+	x := Sqrt3 / 2. * float64(n.logical.X)
+	y := 1.5 * float64(n.logical.Y)
+	even := (n.logical.X+n.logical.Y)%2 == 0
 	if !even {
 		y += 0.5
 	}
@@ -37,16 +41,16 @@ func (n triNode) Cartesian() (float64, float64) {
 }
 
 func (n triNode) North() Node {
-	return n.field.AtLogical(n.logical.x, n.logical.y-1)
+	return n.field.AtLogical(n.logical.X, n.logical.Y-1)
 }
 func (n triNode) South() Node {
-	return n.field.AtLogical(n.logical.x, n.logical.y+1)
+	return n.field.AtLogical(n.logical.X, n.logical.Y+1)
 }
 func (n triNode) East() Node {
-	return n.field.AtLogical(n.logical.x+1, n.logical.y)
+	return n.field.AtLogical(n.logical.X+1, n.logical.Y)
 }
 func (n triNode) West() Node {
-	return n.field.AtLogical(n.logical.x-1, n.logical.y)
+	return n.field.AtLogical(n.logical.X-1, n.logical.Y)
 }
 
 func (n triNode) Neighbours() (r []Node) {
@@ -58,7 +62,7 @@ func (n triNode) Neighbours() (r []Node) {
 	}
 
 	var node Node
-	even := (n.logical.x+n.logical.y)%2 == 0
+	even := (n.logical.X+n.logical.Y)%2 == 0
 	if even {
 		node = n.North()
 	} else {
@@ -68,6 +72,10 @@ func (n triNode) Neighbours() (r []Node) {
 		r = append(r, node)
 	}
 	return
+}
+
+func (n triNode) Field() Field {
+	return n.field
 }
 
 /*

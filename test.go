@@ -11,7 +11,7 @@ import (
 func main() {
 	sdl.Init(sdl.INIT_EVERYTHING)
 
-	window, err := sdl.CreateWindow("test", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
+	window, err := sdl.CreateWindow(os.Args[0], sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED,
 		1000, 1000, sdl.WINDOW_SHOWN|sdl.WINDOW_RESIZABLE)
 	if err != nil {
 		panic(err)
@@ -19,7 +19,7 @@ func main() {
 	defer window.Destroy()
 
 	var r *sdl.Renderer
-	if r, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_SOFTWARE); err != nil {
+	if r, err = sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED); err != nil {
 		fmt.Fprint(os.Stderr, "Failed to create renderer: %s\n", err)
 		panic(err)
 	}
@@ -46,7 +46,6 @@ func main() {
 			return
 		}
 		repaint = false
-		fmt.Println("Rendering!")
 		r.SetDrawColor(0, 0, 0, 255)
 		r.Clear()
 		for y := 0; y < h; y++ {
@@ -73,7 +72,7 @@ func main() {
 						gfx.LineColor(r, xtl, ytl, xbr, ybr, lineColor)
 					}
 					// fmt.Printf("(%v; %v) ", xc, yc)
-					gfx.FilledCircleColor(r, int(xc*scale), int(yc*scale), 3, centerColor)
+					gfx.CircleColor(r, int(xc*scale), int(yc*scale), 3, centerColor)
 					// dc.DrawCircle(xc, yc, 0.05)
 					// dc.Scale(100, 100)
 					// dc.SetRGB(0, 0, 0)
@@ -128,7 +127,6 @@ func main() {
 		}
 		cur_ms := sdl.GetTicks()
 		if (cur_ms < lastFrame_ms || int(cur_ms-lastFrame_ms) > wait_ms) && repaint {
-			fmt.Printf("%v ms left, time to paint\n", cur_ms-lastFrame_ms)
 			paint()
 			lastFrame_ms = cur_ms
 		}
@@ -136,41 +134,3 @@ func main() {
 
 	sdl.Quit()
 }
-
-// func main() {
-// 	dc := gg.NewContext(1000, 1000)
-
-//
-// 	// p := f.AtCartesian(0, 0)
-// 	// fmt.Println(p)
-
-// 	// for y := 0.; y < 3; y += 0.1 {
-// 	// 	fmt.Printf("\n%f\t", y)
-// 	// 	for x := 0.; x < 7; x += 0.1 {
-// 	// 		p := f.AtCartesian(x, y)
-// 	// 		if p == nil {
-// 	// 			fmt.Print("_")
-// 	// 		} else {
-// 	// 			x, y := p.Logical()
-// 	// 			// fmt.Printf("%v%v ", x, y)
-// 	// 			fmt.Print(string('A' + 5*x + y))
-// 	// 		}
-// 	// 	}
-// 	// }
-
-// 	for y := 0; y < 10; y++ {
-// 		fmt.Printf("\n%v\t", y)
-// 		for x := 0; x < 10; x++ {
-// 			n := f.AtLogical(x, y)
-// 			if n != nil {
-// 				xc, yc := n.Cartesian()
-// 				// fmt.Printf("(%v; %v) ", xc, yc)
-// 				dc.DrawCircle(xc, yc, 0.05)
-// 				dc.Scale(100, 100)
-// 				dc.SetRGB(0, 0, 0)
-// 				dc.Fill()
-// 			}
-// 		}
-// 	}
-// 	dc.SavePNG("out.png")
-// }

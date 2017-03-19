@@ -1,11 +1,11 @@
 package core
 
 type PointF struct {
-	x, y float64
+	X, Y float64
 }
 
 type Point struct {
-	x, y int
+	X, Y int
 }
 
 type Topology int
@@ -33,6 +33,10 @@ type Node interface {
 
 	Cartesian() (float64, float64) // cartesian corridinates of center
 	Logical() (int, int)           // logical coordinates of node
+	LogicalP() Point
+
+	Field() Field
+
 	Data() interface{}
 	SetData(interface{})
 }
